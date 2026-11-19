@@ -162,7 +162,7 @@ export function AccountRotation({
           );
           return (
             <li key={account.id}>
-              {state === 'serving' ? <Flair variant="line">{line}</Flair> : line}
+              {state === 'serving' ? <Flair variant="line" flush>{line}</Flair> : line}
             </li>
           );
         })}

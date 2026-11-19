@@ -156,7 +156,13 @@ export const resolveClaudePlanType = (profile: ClaudeProfileResponse | null): st
 
   // Account flags include personal subscriptions even for a Team-scoped token.
   const hasClaudeMax = normalizeFlagValue(profile.account?.has_claude_max);
-  if (hasClaudeMax) return 'plan_max';
+  if (hasClaudeMax) {
+    // The tier names the Max multiplier, e.g. default_claude_max_20x or default_claude_max_5x.
+    const tier = normalizeStringValue(profile.organization?.rate_limit_tier)?.toLowerCase() ?? '';
+    if (tier.includes('max_20x')) return 'plan_max20';
+    if (tier.includes('max_5x')) return 'plan_max5';
+    return 'plan_max';
+  }
 
   const hasClaudePro = normalizeFlagValue(profile.account?.has_claude_pro);
   if (hasClaudePro) return 'plan_pro';

@@ -64,6 +64,16 @@
   padding: $space-1 $space-5;
   border-radius: $radius-4;
 }
+.planBadge {
+  flex-shrink: 0;
+  font-size: $font-size-12;
+  font-weight: $font-weight-600;
+  line-height: $line-height-16px;
+  padding: $space-1 $space-5;
+  border-radius: $radius-4;
+  color: var(--text-primary);
+  border: $border-width-1 solid var(--border-color);
+}
 .runtimeLabel,
 .unreported {
   color: var(--text-secondary);

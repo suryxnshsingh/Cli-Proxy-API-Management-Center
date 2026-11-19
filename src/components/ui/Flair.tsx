@@ -12,6 +12,8 @@ interface FlairProps {
   variant?: FlairVariant;
   /** Pause the animation, for example while the wrapped element is idle or hidden. */
   active?: boolean;
+  /** Square corners, for a row inside a list whose own border clips the corners. */
+  flush?: boolean;
   className?: string;
 }
 
@@ -26,7 +28,13 @@ const PRESETS: Record<FlairVariant, Pick<BorderBeamProps, 'size' | 'strength' | 
  * Subtle colourful border beam around a surface. Decorative only: it adds no semantics, and the
  * underlying library stops animating under `prefers-reduced-motion`.
  */
-export function Flair({ children, variant = 'card', active = true, className }: FlairProps) {
+export function Flair({
+  children,
+  variant = 'card',
+  active = true,
+  flush = false,
+  className,
+}: FlairProps) {
   const resolvedTheme = useThemeStore((state) => state.resolvedTheme);
   return (
     <BorderBeam
@@ -34,6 +42,7 @@ export function Flair({ children, variant = 'card', active = true, className }: 
       colorVariant="colorful"
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
       active={active}
+      borderRadius={flush ? 0 : undefined}
       className={className ? `flair ${className}` : 'flair'}
     >
       {children}

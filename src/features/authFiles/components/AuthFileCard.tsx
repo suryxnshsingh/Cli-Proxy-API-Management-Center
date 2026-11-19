@@ -48,6 +48,8 @@ import { resolveAuthFileQuotaType, summarizeRequestActivity } from '@/features/a
 import type { AuthFileStatusBarData } from '@/features/authFiles/hooks/useAuthFilesStatusBarCache';
 import { AuthFileQuotaSection } from '@/features/authFiles/components/AuthFileQuotaSection';
 import { AuthFileCooldownSection } from './AuthFileCooldownSection';
+import { useQuotaStore } from '@/stores';
+import { getQuotaCacheKey } from '@/utils/quota/identity';
 import styles from './AuthFileCard.module.scss';
 import { menuFocusTarget } from '@/utils/menuFocus';
 import { iconSize } from '@/design-system';
@@ -113,6 +115,10 @@ export function AuthFileCard(props: AuthFileCardProps) {
   const typeColor = getTypeColor(providerKey, resolvedTheme);
 
   const quotaType = resolveAuthFileQuotaType(file, quotaFilterType);
+  // Claude's profile names the plan (Pro, Max 5x, Max 20x); it rides along with the quota check.
+  const claudePlan = useQuotaStore((state) =>
+    quotaType === 'claude' ? (state.claudeQuota[getQuotaCacheKey(file)]?.planType ?? null) : null
+  );
   const showQuotaLayout = Boolean(quotaType) && !isRuntimeOnly;
 
   const successCount = file.successCount ?? 0;
@@ -407,6 +413,9 @@ export function AuthFileCard(props: AuthFileCardProps) {
           >
             {typeLabel}
           </span>
+          {claudePlan && (
+            <span className={styles.planBadge}>{t(`claude_quota.${claudePlan}`)}</span>
+          )}
           {isRuntimeOnly && (
             <span className={styles.runtimeLabel}>{t('auth_files.type_virtual')}</span>
           )}

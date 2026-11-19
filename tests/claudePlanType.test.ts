@@ -68,3 +68,16 @@ describe('Claude plan type', () => {
     }
   );
 });
+
+describe('resolveClaudePlanType Max multiplier', () => {
+  test('reads 20x and 5x from the organization rate-limit tier', () => {
+    const max = (tier?: string) =>
+      resolveClaudePlanType({
+        account: { has_claude_max: true },
+        organization: { organization_type: 'claude_max', rate_limit_tier: tier },
+      });
+    expect(max('default_claude_max_20x')).toBe('plan_max20');
+    expect(max('default_claude_max_5x')).toBe('plan_max5');
+    expect(max(undefined)).toBe('plan_max');
+  });
+});
