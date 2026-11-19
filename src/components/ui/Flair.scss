@@ -1,0 +1,5 @@
+// The beam paints on the wrapper's ::before/::after (z-index 1 and 2). A wrapped surface that sets
+// its own z-index would cover the glow, so it joins the wrapper's base layer instead.
+.flair > * {
+  z-index: auto;
+}

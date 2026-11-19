@@ -44,6 +44,7 @@ import { UsagePanel } from './components/UsagePanel';
 import { VitalsStrip, type Vital } from './components/VitalsStrip';
 import { providerLabel, splitWindowMinutes, toneForSuccessRate } from './utils';
 import styles from './dashboard.module.scss';
+import { Flair } from '@/components/ui/Flair';
 
 const DASH = '—';
 const DEFAULT_WINDOW_MINUTES = 200;
@@ -607,11 +608,15 @@ export function DashboardPage() {
             onRetry={retryAndAnnounce}
           />
         ) : (
-          <HealthStatusRow status={healthStatus} windowLabel={windowLabel} now={now} />
+          <Flair variant="line">
+            <HealthStatusRow status={healthStatus} windowLabel={windowLabel} now={now} />
+          </Flair>
         ))}
 
       {/* ---------- Vitals ---------- */}
-      <VitalsStrip items={vitals} ariaLabel={t('dashboard.stats_aria')} />
+      <Flair variant="line">
+        <VitalsStrip items={vitals} ariaLabel={t('dashboard.stats_aria')} />
+      </Flair>
 
       {!trafficIdle && requestFlow}
 

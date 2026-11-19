@@ -4,7 +4,7 @@
 .allClear {
   position: relative;
   z-index: 1;
-  border-radius: $radius-8;
+  border-radius: $radius-12;
   border: $border-width-1 solid var(--border-color);
   background: var(--bg-primary);
 }

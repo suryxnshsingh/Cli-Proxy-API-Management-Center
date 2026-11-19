@@ -61,7 +61,7 @@ describe('shared shell styles', () => {
     expect(ruleBody(css, '.skip-link')).toContain('box-shadow: none');
     const focus = ruleBody(css, '.skip-link:focus, .skip-link:focus-visible');
     expect(focus).toContain('transform: none');
-    expect(focus).toMatch(/box-shadow: 0 8px 24px/);
+    expect(focus).toMatch(/box-shadow: 0 0 0 1px rgba\(0, 0, 0, 0\.08\)/);
   });
 
   test('button icon and label children keep a gap and get 44px targets on phones', () => {

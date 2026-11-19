@@ -594,7 +594,12 @@
     color: var(--text-primary);
   }
 
-  .sidebar-brand-logo {
+  .sidebar-brand-flair {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.sidebar-brand-logo {
     width: $size-30;
     height: $size-30;
     object-fit: contain;

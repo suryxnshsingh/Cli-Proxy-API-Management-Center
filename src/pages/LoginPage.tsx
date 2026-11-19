@@ -17,6 +17,7 @@ import { redirectTargetFrom } from '@/router/redirectTarget';
 import { iconSize } from '@/design-system';
 import { LegacyBackendError } from '@/services/api/legacyBackendProbe';
 import { isRequestCancelled } from '@/utils/helpers';
+import { Flair } from '@/components/ui/Flair';
 
 /** Dwell on the auto-login success state before redirecting (flow timing, not a token). */
 // design-tokens: allow flow dwell before navigation, not an animation
@@ -229,109 +230,111 @@ export function LoginPage() {
             </div>
 
             {/* 登录表单卡片 */}
-            <form
-              className={styles.loginCard}
-              onSubmit={(event) => {
-                event.preventDefault();
-                if (!loading) void handleSubmit();
-              }}
-            >
-              <div className={styles.titleRow}>
-                <h2 className={styles.title}>{t('login.card_title')}</h2>
-                <Select
-                  className={styles.languageSelect}
-                  value={language}
-                  options={languageOptions}
-                  onChange={handleLanguageChange}
-                  fullWidth={false}
-                  ariaLabel={t('language.switch')}
-                />
-              </div>
-
-              <div className={styles.connectionBox}>
-                <div className={styles.label}>{t('login.connection_current')}</div>
-                <div className={styles.value}>{apiBase || detectedBase}</div>
-                <div className={styles.hint}>{t('login.connection_auto_hint')}</div>
-              </div>
-
-              <div className={styles.toggleAdvanced}>
-                <SelectionCheckbox
-                  checked={showCustomBase}
-                  onChange={setShowCustomBase}
-                  ariaLabel={t('login.custom_connection_label')}
-                  label={t('login.custom_connection_label')}
-                  labelClassName={styles.toggleLabel}
-                />
-              </div>
-
-              {showCustomBase && (
-                <Input
-                  label={t('login.custom_connection_label')}
-                  placeholder={t('login.custom_connection_placeholder')}
-                  value={apiBase}
-                  onChange={(e) => setApiBase(e.target.value)}
-                  hint={t('login.custom_connection_hint')}
-                />
-              )}
-
-              <Input
-                autoFocus
-                label={t('login.management_key_label')}
-                placeholder={t('login.management_key_placeholder')}
-                type={showKey ? 'text' : 'password'}
-                name="cpa-management-key"
-                autoComplete="current-password"
-                aria-invalid={Boolean(error)}
-                aria-describedby={error ? 'login-error' : undefined}
-                value={managementKey}
-                onChange={(e) => setManagementKey(e.target.value)}
-                rightElement={
-                  <button
-                    type="button"
-                    className="btn btn-ghost btn-sm"
-                    onClick={() => setShowKey((prev) => !prev)}
-                    aria-label={
-                      showKey
-                        ? t('login.hide_key', { defaultValue: '隐藏密钥' })
-                        : t('login.show_key', { defaultValue: '显示密钥' })
-                    }
-                    title={
-                      showKey
-                        ? t('login.hide_key', { defaultValue: '隐藏密钥' })
-                        : t('login.show_key', { defaultValue: '显示密钥' })
-                    }
-                  >
-                    {showKey ? (
-                      <IconEyeOff size={iconSize['16']} />
-                    ) : (
-                      <IconEye size={iconSize['16']} />
-                    )}
-                  </button>
-                }
-              />
-
-              <div className={styles.toggleAdvanced}>
-                <SelectionCheckbox
-                  checked={rememberPassword}
-                  onChange={setRememberPassword}
-                  ariaLabel={t('login.remember_password_label')}
-                  label={t('login.remember_password_label')}
-                  labelClassName={styles.toggleLabel}
-                />
-              </div>
-
-              <p className={styles.hint}>{t('redesign.settings.rememberHint')}</p>
-
-              <Button fullWidth type="submit" loading={loading}>
-                {loading ? t('login.submitting') : t('login.submit_button')}
-              </Button>
-
-              {error && (
-                <div id="login-error" className={styles.errorBox} role="alert">
-                  {error}
+            <Flair className={styles.loginCardFlair}>
+              <form
+                className={styles.loginCard}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  if (!loading) void handleSubmit();
+                }}
+              >
+                <div className={styles.titleRow}>
+                  <h2 className={styles.title}>{t('login.card_title')}</h2>
+                  <Select
+                    className={styles.languageSelect}
+                    value={language}
+                    options={languageOptions}
+                    onChange={handleLanguageChange}
+                    fullWidth={false}
+                    ariaLabel={t('language.switch')}
+                  />
                 </div>
-              )}
-            </form>
+
+                <div className={styles.connectionBox}>
+                  <div className={styles.label}>{t('login.connection_current')}</div>
+                  <div className={styles.value}>{apiBase || detectedBase}</div>
+                  <div className={styles.hint}>{t('login.connection_auto_hint')}</div>
+                </div>
+
+                <div className={styles.toggleAdvanced}>
+                  <SelectionCheckbox
+                    checked={showCustomBase}
+                    onChange={setShowCustomBase}
+                    ariaLabel={t('login.custom_connection_label')}
+                    label={t('login.custom_connection_label')}
+                    labelClassName={styles.toggleLabel}
+                  />
+                </div>
+
+                {showCustomBase && (
+                  <Input
+                    label={t('login.custom_connection_label')}
+                    placeholder={t('login.custom_connection_placeholder')}
+                    value={apiBase}
+                    onChange={(e) => setApiBase(e.target.value)}
+                    hint={t('login.custom_connection_hint')}
+                  />
+                )}
+
+                <Input
+                  autoFocus
+                  label={t('login.management_key_label')}
+                  placeholder={t('login.management_key_placeholder')}
+                  type={showKey ? 'text' : 'password'}
+                  name="cpa-management-key"
+                  autoComplete="current-password"
+                  aria-invalid={Boolean(error)}
+                  aria-describedby={error ? 'login-error' : undefined}
+                  value={managementKey}
+                  onChange={(e) => setManagementKey(e.target.value)}
+                  rightElement={
+                    <button
+                      type="button"
+                      className="btn btn-ghost btn-sm"
+                      onClick={() => setShowKey((prev) => !prev)}
+                      aria-label={
+                        showKey
+                          ? t('login.hide_key', { defaultValue: '隐藏密钥' })
+                          : t('login.show_key', { defaultValue: '显示密钥' })
+                      }
+                      title={
+                        showKey
+                          ? t('login.hide_key', { defaultValue: '隐藏密钥' })
+                          : t('login.show_key', { defaultValue: '显示密钥' })
+                      }
+                    >
+                      {showKey ? (
+                        <IconEyeOff size={iconSize['16']} />
+                      ) : (
+                        <IconEye size={iconSize['16']} />
+                      )}
+                    </button>
+                  }
+                />
+
+                <div className={styles.toggleAdvanced}>
+                  <SelectionCheckbox
+                    checked={rememberPassword}
+                    onChange={setRememberPassword}
+                    ariaLabel={t('login.remember_password_label')}
+                    label={t('login.remember_password_label')}
+                    labelClassName={styles.toggleLabel}
+                  />
+                </div>
+
+                <p className={styles.hint}>{t('redesign.settings.rememberHint')}</p>
+
+                <Button fullWidth type="submit" loading={loading}>
+                  {loading ? t('login.submitting') : t('login.submit_button')}
+                </Button>
+
+                {error && (
+                  <div id="login-error" className={styles.errorBox} role="alert">
+                    {error}
+                  </div>
+                )}
+              </form>
+            </Flair>
           </div>
         )}
       </div>
