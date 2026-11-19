@@ -6,6 +6,8 @@ import { getTypeLabel } from '@/features/authFiles/constants';
 import { QUOTA_PROGRESS_MEDIUM_THRESHOLD } from '@/features/quota/components/QuotaMeter';
 import type { GlanceRow } from '@/features/quota/quotaAccountSeries';
 import { quotaAccountLabel } from '@/features/quota/quotaChartFormat';
+import { useQuotaStore } from '@/stores';
+import { getQuotaCacheKey } from '@/utils/quota/identity';
 import { formatDuration } from './formatters';
 import styles from './AccountRotation.module.scss';
 
@@ -45,6 +47,11 @@ export function AccountRotation({
   formatTime,
 }: AccountRotationProps) {
   const { t } = useTranslation();
+  const claudeQuota = useQuotaStore((state) => state.claudeQuota);
+  const planOf = (account: GlanceRow['account']) =>
+    account.entry.type === 'claude'
+      ? (claudeQuota[getQuotaCacheKey(account.entry.file)]?.planType ?? null)
+      : null;
   const cooling = rows.filter(isCooling).sort(byReset);
   const ready = rows.filter((row) => !isCooling(row)).sort(byReset);
   // Reset-first serves the available account whose window resets soonest.
@@ -90,6 +97,7 @@ export function AccountRotation({
           const { account } = row;
           const state = stateOf(row);
           const remaining = row.remaining;
+          const plan = planOf(account);
           const line = (
             <div
               className={`${styles.row} ${styles[brandOf(account.entry.type)]}`}
@@ -112,6 +120,7 @@ export function AccountRotation({
                     {numbers.get(account.id) ?? ''}
                   </span>
                   {getTypeLabel(t, account.entry.type)}
+                  {plan && <span className={styles.plan}>{t(`claude_quota.${plan}`)}</span>}
                 </span>
                 <span className={styles.email} title={account.label}>
                   {displayName(account)}

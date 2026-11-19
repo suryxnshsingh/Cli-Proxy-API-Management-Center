@@ -150,6 +150,15 @@
   color: var(--text-secondary);
 }
 
+.plan {
+  padding: 0 $space-5;
+  border-radius: $radius-4;
+  border: $border-width-1 solid var(--border-color);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-secondary);
+}
+
 .email {
   font-size: $font-size-14;
   font-weight: $font-weight-600;
