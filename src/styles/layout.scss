@@ -499,9 +499,17 @@
   gap: $space-16;
   flex-shrink: 0;
   overflow-y: auto;
-  background: var(--sidebar-bg);
+  /* Fare card world: the rail is dark ink in every theme, so its children read these locals. */
+  --text-primary: var(--sidebar-text);
+  --text-secondary: var(--sidebar-text-muted);
+  --bg-hover: var(--sidebar-hover);
+  --bg-secondary: var(--sidebar-active);
+  --border-color: var(--sidebar-border);
+  color-scheme: dark;
+  color: var(--sidebar-text);
+  background: var(--sidebar-ink);
   border: 0;
-  border-right: $border-width-1 solid color-mix(in srgb, var(--border-color) $tint-0-78, transparent);
+  border-right: $border-width-1 solid var(--sidebar-border);
   border-radius: 0;
   box-shadow: none;
   scrollbar-width: none;
@@ -1187,4 +1195,24 @@ html {
 /* The skip target is a container, not a control: no focus ring around the page. */
 .main-content:focus {
   outline: none;
+}
+
+/* Each nav group rides one transit line; its colour marks the icons and the active stop. */
+@for $line from 1 through 6 {
+  .nav-line-#{$line} {
+    --nav-line: var(--chart-#{$line});
+  }
+}
+
+.sidebar .nav-group .nav-item .nav-icon {
+  color: var(--nav-line);
+}
+
+.sidebar .nav-group .nav-item.active {
+  background: var(--sidebar-active);
+  color: var(--sidebar-text);
+
+  .nav-icon {
+    color: var(--nav-line);
+  }
 }

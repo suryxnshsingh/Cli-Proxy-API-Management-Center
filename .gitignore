@@ -37,3 +37,4 @@ settings.local.json
 *.njsproj
 *.sln
 *.sw?
+.impeccable/mocks/

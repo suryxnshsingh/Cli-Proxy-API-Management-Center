@@ -5,7 +5,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { RefreshButton } from '@/components/ui/RefreshButton';
 import { TimeSeriesChart } from '@/components/ui/TimeSeriesChart';
 import { useNow } from '@/hooks/useNow';
-import { useAuthStore, useQuotaStore } from '@/stores';
+import { useAuthStore, useConfigStore, useQuotaStore } from '@/stores';
 import type { AuthFileItem } from '@/types';
 import { getQuotaCacheKey } from '@/utils/quota/identity';
 import { useQuotaBatchLoader } from '@/features/quota/hooks/useQuotaBatchLoader';
@@ -16,19 +16,19 @@ import {
   buildGlanceRows,
   resetMarkers,
 } from '@/features/quota/quotaAccountSeries';
-import { QuotaGlanceList } from '@/features/quota/components/QuotaGlanceList';
 import {
   quotaAccountLabel,
   quotaTickFormat,
   quotaTimeFormat,
   quotaTimeZoneLabel,
 } from '@/features/quota/quotaChartFormat';
-import { formatSeriesNumbers, resolveSeriesStrokes } from '@/components/ui/TimeSeriesChart.model';
+import { formatSeriesNumbers } from '@/components/ui/TimeSeriesChart.model';
 import {
   observableQuotaEntries,
   resolveQuotaEntryCheck,
   resolveQuotaRefreshTargets,
 } from '@/features/quota/refreshScope';
+import { FareCards } from './FareCards';
 import styles from './QuotaSummaryChart.module.scss';
 import { chart } from '@/design-system';
 
@@ -129,15 +129,19 @@ function QuotaSummaryChartContent({
   const forecast = measured.length
     ? { from: now, label: t('redesign.quota.projected_from_snapshot') }
     : undefined;
-  // Same stroke decision as the chart; rows show their line key only while the chart is open.
-  const { strokes } = resolveSeriesStrokes(series, model.data, {
-    xDomain,
-    yDomain: [0, 100],
-    forecast: forecast !== undefined,
-  });
   const glanceRows = buildGlanceRows(model.accounts, now);
   // Least remaining first: the dashboard shows the accounts closest to running out.
   const visibleRows = glanceRows.slice(0, DASHBOARD_ROW_LIMIT);
+  // Fare cards ride in reset order: the soonest recharge first, unknown resets last.
+  const fareRows = [...visibleRows].sort(
+    (a, b) => (a.resetAtMs ?? Infinity) - (b.resetAtMs ?? Infinity)
+  );
+  const resetFirst = useConfigStore((state) => state.config?.routingStrategy === 'reset-first');
+  const upNextId = resetFirst
+    ? (fareRows.find(
+        (row) => !row.account.entry.file.unavailable && row.remaining !== null && row.remaining > 0
+      )?.account.id ?? null)
+    : null;
   const [projectionOpen, setProjectionOpen] = useState(false);
   const failed = quotas.filter((quota) => quota?.status === 'error' || quota?.stale).length;
   const checking =
@@ -230,12 +234,12 @@ function QuotaSummaryChartContent({
       </p>
       {visibleRows.length > 0 && (
         <div className={styles.accounts}>
-          <QuotaGlanceList
-            rows={visibleRows}
-            strokes={projectionOpen ? strokes : undefined}
+          <FareCards
+            rows={fareRows}
+            now={now}
+            numbers={numbers}
+            upNextId={upNextId}
             formatTime={(timestamp) => dateFormat.format(timestamp)}
-            formatPercent={(value) => percentFormat.format(value / 100)}
-            layout="columns"
           />
           {glanceRows.length > visibleRows.length && (
             <p className={styles.more}>

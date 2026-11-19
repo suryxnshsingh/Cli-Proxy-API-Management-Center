@@ -29,19 +29,10 @@
   }
 }
 
-/* Exceptions get a severity rail; healthy rows stay unmarked. */
+/* Exceptions get a severity tint; healthy rows stay unmarked. */
 .row_critical,
 .row_warning {
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: $space-12;
-    bottom: $space-12;
-    width: $size-3;
-    border-radius: $radius-3;
-    background: var(--rail-color);
-  }
+  background: color-mix(in srgb, var(--rail-color) $tint-0-08, transparent);
 }
 
 .row_critical {

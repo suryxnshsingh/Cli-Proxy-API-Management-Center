@@ -2350,7 +2350,17 @@
       "refresh_policy": "Одна проверка при входе на страницу. Автоопрос квот отключён.",
       "measured": "Измерено {{measured}} из {{eligible}} подходящих аккаунтов",
       "unmeasured": "без процента: {{count}}",
-      "skipped": "пропущено: {{count}}"
+      "skipped": "пропущено: {{count}}",
+      "fare_left": "осталось",
+      "fare_resets": "Сброс {{time}}",
+      "fare_in": "через {{duration}}",
+      "fare_up_next": "Следующий",
+      "fare_cooling": "Охлаждение",
+      "fare_reset_unknown": "Время сброса неизвестно",
+      "fare_not_measured": "Нет данных",
+      "reset_line_title": "До сброса",
+      "reset_line_now": "сейчас",
+      "reset_line_day": "+{{count}} д"
     },
     "chart": {
       "series": "Ряды данных графика",

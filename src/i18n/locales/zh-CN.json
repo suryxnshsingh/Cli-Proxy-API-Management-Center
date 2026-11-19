@@ -2299,7 +2299,17 @@
       "refresh_policy": "每次进入页面检查一次。不自动轮询额度。",
       "measured": "已测量 {{measured}}/{{eligible}} 个符合条件的账户",
       "unmeasured": "{{count}} 个无百分比",
-      "skipped": "已跳过 {{count}} 个"
+      "skipped": "已跳过 {{count}} 个",
+      "fare_left": "剩余",
+      "fare_resets": "{{time}} 重置",
+      "fare_in": "{{duration}} 后",
+      "fare_up_next": "下一个",
+      "fare_cooling": "冷却中",
+      "fare_reset_unknown": "未报告重置时间",
+      "fare_not_measured": "未测量",
+      "reset_line_title": "距离重置",
+      "reset_line_now": "现在",
+      "reset_line_day": "+{{count}} 天"
     },
     "chart": {
       "series": "图表数据系列",

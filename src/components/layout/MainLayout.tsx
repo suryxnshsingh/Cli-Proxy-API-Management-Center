@@ -984,7 +984,7 @@ export function MainLayout() {
 
           <div className="nav-section">
             {navGroups.map((group, idx) => (
-              <div className="nav-group" key={group.id}>
+              <div className={`nav-group nav-line-${(idx % 6) + 1}`} key={group.id}>
                 {showSidebarLabels ? (
                   <div className="nav-group-label">{t(group.labelKey)}</div>
                 ) : (

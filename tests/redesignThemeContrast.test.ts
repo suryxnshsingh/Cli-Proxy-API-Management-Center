@@ -42,7 +42,12 @@ describe('redesign semantic color roles', () => {
     });
 
     test(`${name} body text and focus indicators remain readable across surfaces`, () => {
-      for (const surface of ['--bg-primary', '--bg-secondary', '--bg-tertiary', '--sidebar-bg']) {
+      // The sidebar is dark ink in every theme and sets its own text roles (sidebar-text*).
+      expect(contrast(tokens['--sidebar-text'], tokens['--sidebar-ink'])).toBeGreaterThanOrEqual(4.5);
+      expect(
+        contrast(tokens['--sidebar-text-muted'], tokens['--sidebar-ink'])
+      ).toBeGreaterThanOrEqual(4.5);
+      for (const surface of ['--bg-primary', '--bg-secondary', '--bg-tertiary']) {
         expect(contrast(tokens['--text-primary'], tokens[surface])).toBeGreaterThanOrEqual(4.5);
         expect(contrast(tokens['--text-secondary'], tokens[surface])).toBeGreaterThanOrEqual(4.5);
         expect(contrast(tokens['--focus-ring'], tokens[surface])).toBeGreaterThanOrEqual(3);
