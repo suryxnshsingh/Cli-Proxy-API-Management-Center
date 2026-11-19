@@ -2329,13 +2329,17 @@
       "fare_left": "剩餘",
       "fare_resets": "{{time}} 重設",
       "fare_in": "{{duration}} 後",
-      "fare_up_next": "下一個",
-      "fare_cooling": "冷卻中",
       "fare_reset_unknown": "未回報重設時間",
       "fare_not_measured": "未測量",
-      "reset_line_title": "距離重設",
-      "reset_line_now": "現在",
-      "reset_line_day": "+{{count}} 天"
+      "rotation_serving": "服務中",
+      "rotation_reserve": "備用",
+      "rotation_active": "可用",
+      "rotation_cooling": "冷卻中",
+      "rotation_back_in": "{{duration}} 後恢復",
+      "rotation_summary_serving": "{{count}} 個服務中",
+      "rotation_summary_reserve": "{{count}} 個備用",
+      "rotation_summary_cooling": "{{count}} 個冷卻中",
+      "rotation_summary_active": "{{count}} 個可用"
     },
     "chart": {
       "series": "圖表資料系列",

@@ -2354,13 +2354,17 @@
       "fare_left": "осталось",
       "fare_resets": "Сброс {{time}}",
       "fare_in": "через {{duration}}",
-      "fare_up_next": "Следующий",
-      "fare_cooling": "Охлаждение",
       "fare_reset_unknown": "Время сброса неизвестно",
       "fare_not_measured": "Нет данных",
-      "reset_line_title": "До сброса",
-      "reset_line_now": "сейчас",
-      "reset_line_day": "+{{count}} д"
+      "rotation_serving": "Обслуживает",
+      "rotation_reserve": "Резерв",
+      "rotation_active": "Доступен",
+      "rotation_cooling": "Охлаждение",
+      "rotation_back_in": "вернётся через {{duration}}",
+      "rotation_summary_serving": "обслуживает: {{count}}",
+      "rotation_summary_reserve": "в резерве: {{count}}",
+      "rotation_summary_cooling": "охлаждается: {{count}}",
+      "rotation_summary_active": "доступно: {{count}}"
     },
     "chart": {
       "series": "Ряды данных графика",

@@ -2323,13 +2323,17 @@
       "fare_left": "left",
       "fare_resets": "Resets {{time}}",
       "fare_in": "in {{duration}}",
-      "fare_up_next": "Up next",
-      "fare_cooling": "Cooling",
       "fare_reset_unknown": "Reset time not reported",
       "fare_not_measured": "Not measured",
-      "reset_line_title": "Time to reset",
-      "reset_line_now": "now",
-      "reset_line_day": "+{{count}}d"
+      "rotation_serving": "Serving",
+      "rotation_reserve": "Reserve",
+      "rotation_active": "Available",
+      "rotation_cooling": "Cooling",
+      "rotation_back_in": "back in {{duration}}",
+      "rotation_summary_serving": "{{count}} serving",
+      "rotation_summary_reserve": "{{count}} in reserve",
+      "rotation_summary_cooling": "{{count}} cooling",
+      "rotation_summary_active": "{{count}} available"
     },
     "chart": {
       "series": "Chart series",

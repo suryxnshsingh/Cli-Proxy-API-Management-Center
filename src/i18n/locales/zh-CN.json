@@ -2303,13 +2303,17 @@
       "fare_left": "剩余",
       "fare_resets": "{{time}} 重置",
       "fare_in": "{{duration}} 后",
-      "fare_up_next": "下一个",
-      "fare_cooling": "冷却中",
       "fare_reset_unknown": "未报告重置时间",
       "fare_not_measured": "未测量",
-      "reset_line_title": "距离重置",
-      "reset_line_now": "现在",
-      "reset_line_day": "+{{count}} 天"
+      "rotation_serving": "服务中",
+      "rotation_reserve": "备用",
+      "rotation_active": "可用",
+      "rotation_cooling": "冷却中",
+      "rotation_back_in": "{{duration}} 后恢复",
+      "rotation_summary_serving": "{{count}} 个服务中",
+      "rotation_summary_reserve": "{{count}} 个备用",
+      "rotation_summary_cooling": "{{count}} 个冷却中",
+      "rotation_summary_active": "{{count}} 个可用"
     },
     "chart": {
       "series": "图表数据系列",

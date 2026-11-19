@@ -28,7 +28,7 @@ import {
   resolveQuotaEntryCheck,
   resolveQuotaRefreshTargets,
 } from '@/features/quota/refreshScope';
-import { FareCards } from './FareCards';
+import { AccountRotation } from './AccountRotation';
 import styles from './QuotaSummaryChart.module.scss';
 import { chart } from '@/design-system';
 
@@ -132,16 +132,7 @@ function QuotaSummaryChartContent({
   const glanceRows = buildGlanceRows(model.accounts, now);
   // Least remaining first: the dashboard shows the accounts closest to running out.
   const visibleRows = glanceRows.slice(0, DASHBOARD_ROW_LIMIT);
-  // Fare cards ride in reset order: the soonest recharge first, unknown resets last.
-  const fareRows = [...visibleRows].sort(
-    (a, b) => (a.resetAtMs ?? Infinity) - (b.resetAtMs ?? Infinity)
-  );
   const resetFirst = useConfigStore((state) => state.config?.routingStrategy === 'reset-first');
-  const upNextId = resetFirst
-    ? (fareRows.find(
-        (row) => !row.account.entry.file.unavailable && row.remaining !== null && row.remaining > 0
-      )?.account.id ?? null)
-    : null;
   const [projectionOpen, setProjectionOpen] = useState(false);
   const failed = quotas.filter((quota) => quota?.status === 'error' || quota?.stale).length;
   const checking =
@@ -234,11 +225,11 @@ function QuotaSummaryChartContent({
       </p>
       {visibleRows.length > 0 && (
         <div className={styles.accounts}>
-          <FareCards
-            rows={fareRows}
+          <AccountRotation
+            rows={visibleRows}
             now={now}
             numbers={numbers}
-            upNextId={upNextId}
+            resetFirst={resetFirst}
             formatTime={(timestamp) => dateFormat.format(timestamp)}
           />
           {glanceRows.length > visibleRows.length && (

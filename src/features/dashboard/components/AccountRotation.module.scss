@@ -1,0 +1,216 @@
+@use '../../../styles/mixins' as *;
+
+// The account pool as one rotation: rows in the order the hub uses them. State reads from the
+// pill (dot plus word), never from colour alone; the meter takes the provider's own accent.
+.rotation {
+  display: flex;
+  flex-direction: column;
+  gap: $space-10;
+}
+
+.summary {
+  margin: 0;
+  font-size: $font-size-14;
+  font-weight: $font-weight-600;
+  color: var(--text-primary);
+}
+
+.summaryBack {
+  font-weight: $font-weight-500;
+  color: var(--text-secondary);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: $border-width-1 solid var(--border-color);
+  border-radius: $radius-12;
+  background: var(--bg-primary);
+  overflow: hidden;
+
+  > li + li {
+    border-top: $border-width-1 solid var(--border-color);
+  }
+}
+
+@each $brand in claude, codex, antigravity {
+  .#{$brand} {
+    --row-accent: var(--brand-#{$brand}-accent);
+  }
+}
+
+.neutral {
+  --row-accent: var(--text-primary);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: $size-120 minmax(0, 1.3fr) minmax($size-96, 1.6fr) $size-140 $size-200;
+  align-items: center;
+  gap: $space-16;
+  padding: $space-14 $space-16;
+  background: var(--bg-primary);
+
+  &[data-state='serving'] {
+    background: color-mix(in srgb, var(--success-color) $tint-0-08, var(--bg-primary));
+  }
+
+  &[data-state='cooling'] {
+    color: var(--text-secondary);
+
+    .fill {
+      background: var(--text-tertiary);
+    }
+  }
+
+  @media (max-width: #{$breakpoint-900}) {
+    grid-template-columns: $size-120 minmax(0, 1fr) $size-140;
+
+    .meter,
+    .reset {
+      grid-column: 2 / -1;
+    }
+  }
+}
+
+.state {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-6;
+  padding: $space-3 $space-10 $space-3 $space-8;
+  border-radius: $radius-999;
+  font-size: $font-size-12-5;
+  font-weight: $font-weight-700;
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  white-space: nowrap;
+
+  [data-state='serving'] & {
+    color: var(--success-badge-text);
+    background: var(--success-badge-bg);
+  }
+
+  [data-state='cooling'] & {
+    color: var(--warning-text);
+    background: var(--warning-bg);
+  }
+}
+
+.dot {
+  width: $size-8;
+  height: $size-8;
+  border-radius: $radius-999;
+  background: var(--text-tertiary);
+
+  [data-state='serving'] & {
+    background: var(--success-color);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--success-color) $tint-0-4, transparent);
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: rotation-live $duration-1800 $ease-out infinite;
+    }
+  }
+}
+
+@keyframes rotation-live {
+  to {
+    box-shadow: 0 0 0 $space-6 transparent;
+  }
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  min-width: 0;
+}
+
+.provider {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-6;
+  font-size: $font-size-12;
+  font-weight: $font-weight-700;
+  letter-spacing: $letter-spacing-0-06;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.number {
+  display: inline-grid;
+  place-items: center;
+  min-width: $size-18;
+  height: $size-18;
+  border-radius: $radius-999;
+  border: $border-width-1 solid var(--border-color);
+  font-family: $font-family-mono;
+  letter-spacing: 0;
+  color: var(--text-secondary);
+}
+
+.email {
+  font-size: $font-size-14;
+  font-weight: $font-weight-600;
+  color: var(--text-primary);
+  @include text-ellipsis;
+
+  [data-state='cooling'] & {
+    color: var(--text-secondary);
+  }
+}
+
+.meter {
+  height: $size-8;
+  border-radius: $radius-999;
+  background: var(--bg-tertiary);
+  overflow: hidden;
+}
+
+.fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--row-accent);
+}
+
+.left {
+  font-size: $font-size-13;
+  color: var(--text-secondary);
+  white-space: nowrap;
+
+  strong {
+    font-family: $font-family-mono;
+    font-variant-numeric: tabular-nums;
+    font-size: $font-size-16;
+    font-weight: $font-weight-600;
+    color: var(--text-primary);
+  }
+}
+
+.low {
+  font-weight: $font-weight-700;
+  color: var(--warning-text);
+}
+
+.reset {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  font-family: $font-family-mono;
+  font-variant-numeric: tabular-nums;
+  font-size: $font-size-12-5;
+  color: var(--text-tertiary);
+  text-align: end;
+}
+
+.resetIn {
+  font-size: $font-size-13;
+  font-weight: $font-weight-600;
+  color: var(--text-primary);
+
+  [data-state='cooling'] & {
+    color: var(--warning-text);
+  }
+}
